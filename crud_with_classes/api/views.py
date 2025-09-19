@@ -28,24 +28,18 @@ class StudentListCreateView(APIView):
 
 class StudentDetailView(APIView):
     def get(self, request, id):
-        try:
-            student = Students.objects.get(id = id)
-            serializedstudent = StudentSerializer(student)
-            return Response(serializedstudent.data) 
-        except:
-            return Response("Student not found")
+        student = Students.objects.get(id = id)
+        serializedstudent = StudentSerializer(student)
+        return Response(serializedstudent.data)
     
     def put(self,request,id):
-        try:
-            student = Students.objects.get(id = id)
-            serialized = StudentSerializer(student, data=request.data)
-            if serialized.is_valid():
-                serialized.save()
-                return Response(serialized.data)
-            
-            return Response(serialized.errors, status=400)
-        except:
-            return Response("An error occured while updating the student", status=500)
+        student = Students.objects.get(id = id)
+        serialized = StudentSerializer(student, data=request.data)
+        if serialized.is_valid():
+            serialized.save()
+            return Response(serialized.data)
+        
+        return Response(serialized.errors, status=400)
         
 
     def delete(self, request, id):
